@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import static org.firstinspires.ftc.teamcode.components.GamePositions.*;
-
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
@@ -11,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 
 public class RoadRunnerTest extends LinearOpMode {
@@ -27,7 +26,11 @@ public class RoadRunnerTest extends LinearOpMode {
 
         sleep (2000);
 
-        testSpline();
+        testSplineConstantHeading();
+
+        sleep (2000);
+
+        testSplineChangingHeading();
 
         sleep (2000);
 
@@ -41,6 +44,8 @@ public class RoadRunnerTest extends LinearOpMode {
         //Trajectory myTrajectory = buildTrajectoryFromPoses(BLUE_START_POS_1, poses, drive);
 
         // DELTA I CHANGED .SPLINETO TO .SPLINETOCONSTANTHEADING BC I THINK ITS BETTER?? IDK FEEL FREE TO CHANGE BACK - VED
+        // DOUBLE CHECKED THE DOCS, .SPINETOSPLINEHEADING actually uses Pose2ds, not Vectors, so im
+        // actually going to try that, but we'll try yto see which one works best - DELTA
 
         //drive.followTrajectory(myTrajectory); //we live we love we lie
     }
@@ -89,7 +94,7 @@ public class RoadRunnerTest extends LinearOpMode {
 
     }
 
-    private void testSpline() {
+    private void testSplineConstantHeading() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         drive.setPoseEstimate(new Pose2d (0,0,0));
@@ -106,6 +111,51 @@ public class RoadRunnerTest extends LinearOpMode {
 
         drive.followTrajectory(test);
 
+    }
+
+    private void testSplineChangingHeading() {
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+        drive.setPoseEstimate(new Pose2d (0,0,0));
+
+        Trajectory test = drive.trajectoryBuilder(new Pose2d ())
+                .splineToSplineHeading(new Pose2d(6,12, Math.toRadians(90)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(12,0, Math.toRadians(180)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(6,-12, Math.toRadians(270)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(0,0, Math.toRadians(360)), Math.toRadians(0))
+                .build();
+
+        drive.followTrajectory(test);
+    }
+
+    private void testSplineChangingHeadingWithTangents() {
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+        drive.setPoseEstimate(new Pose2d (0,0,0));
+
+        Trajectory test = drive.trajectoryBuilder(new Pose2d ())
+                .splineToSplineHeading(new Pose2d(6,12, Math.toRadians(90)), Math.toRadians(-45))
+                .splineToSplineHeading(new Pose2d(12,0, Math.toRadians(180)), Math.toRadians(-135))
+                .splineToSplineHeading(new Pose2d(6,-12, Math.toRadians(270)), Math.toRadians(135))
+                .splineToSplineHeading(new Pose2d(0,0, Math.toRadians(360)), Math.toRadians(0))
+                .build();
+
+        drive.followTrajectory(test);
+    }
+
+    private void trajectorySequenceBuilderTest() {
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+        drive.setPoseEstimate(new Pose2d (0,0,0));
+
+        TrajectorySequence test = drive.trajectorySequenceBuilder(new Pose2d ())
+                .splineToSplineHeading(new Pose2d(6,12, Math.toRadians(90)), Math.toRadians(-45))
+                .splineToSplineHeading(new Pose2d(12,0, Math.toRadians(180)), Math.toRadians(-135))
+                .splineToSplineHeading(new Pose2d(6,-12, Math.toRadians(270)), Math.toRadians(135))
+                .splineToSplineHeading(new Pose2d(0,0, Math.toRadians(360)), Math.toRadians(0))
+                .build();
+
+        drive.followTrajectorySequence(test);
     }
 
     private Trajectory buildTrajectoryFromPoses (Pose2d startPose, List<Pose2d> poses, SampleMecanumDrive drive) {
