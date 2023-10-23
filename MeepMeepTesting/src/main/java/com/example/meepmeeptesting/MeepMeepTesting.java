@@ -1,9 +1,14 @@
 package com.example.meepmeeptesting;
 
+import static com.example.meepmeeptesting.GamePositions.*;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
+
+
+
 
 public class MeepMeepTesting {
     public static void main(String[] args) {
@@ -13,11 +18,14 @@ public class MeepMeepTesting {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
-                                .splineToSplineHeading(new Pose2d(24,48, Math.toRadians(0)), Math.toRadians(0))
-                                .splineToSplineHeading(new Pose2d(48,0, Math.toRadians(0)), Math.toRadians(0))
-                                .splineToSplineHeading(new Pose2d(24,-48, Math.toRadians(0)), Math.toRadians(0))
-                                .splineToSplineHeading(new Pose2d(0,0, Math.toRadians(0)), Math.toRadians(0))
+                        drive.trajectorySequenceBuilder(BLUE_START_POS_2)
+                                .splineToSplineHeading(BLUE_OBJECT_POS_4_1, Math.toRadians(-90))
+                                .splineToSplineHeading(BLUE_OBJECT_POS_4_2, Math.toRadians(-30))
+                                .waitSeconds(1)
+                                .splineToSplineHeading(BLUE_OBJECT_POS_4_3, Math.toRadians(135))
+                                .splineToSplineHeading(BLUE_WAYPOINT_1, Math.toRadians(-45))
+                                .splineToSplineHeading(BLUE_WAYPOINT_2, Math.toRadians(45))
+                                .splineToSplineHeading(BLUE_BACKDROP_LEFT, Math.toRadians(0))
                                 .build()
                 );
 

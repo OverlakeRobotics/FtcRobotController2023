@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import static org.firstinspires.ftc.teamcode.components.GamePositions.*;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
@@ -34,10 +36,9 @@ public class RoadRunnerTest extends LinearOpMode {
 
         sleep (2000);
 
-//boomer manual code
-//        Trajectory myTrajectory = drive.trajectoryBuilder(BLUE_START_POS_1)
-//                .splineTo(BLUE_OBJECT_POS_1.vec(), BLUE_OBJECT_POS_1.getHeading())
-//                .build();
+        Trajectory myTrajectory = drive.trajectoryBuilder(BLUE_START_POS_1)
+                .splineTo(BLUE_OBJECT_POS_1.vec(), BLUE_OBJECT_POS_1.getHeading())
+                .build();
 
 
 
