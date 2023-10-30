@@ -114,7 +114,7 @@ public class AutomaticFeedforwardTuner extends LinearOpMode {
             if (elapsedTime > rampTime) {
                 break;
             }
-            double vel = accel * elapsedTime;
+            double vel = accel * elapsedTime * 100;
             double power = vel / maxVel;
 
             timeSamples.add(elapsedTime);
