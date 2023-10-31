@@ -21,7 +21,7 @@ public class MeepMeepTesting {
                         drive.trajectorySequenceBuilder(BLUE_START_POS_1)
                                 .splineToSplineHeading(BLUE_OBJECT_POS_1, Math.toRadians (0))
                                 .waitSeconds(1)
-                                .splineToSplineHeading(BLUE_BACKDROP_LEFT, Math.toRadians(180))
+                                .splineToSplineHeading(BLUE_BACKDROP_LEFT, Math.toRadians(0))
                                 .build()
 
                 );
@@ -32,4 +32,6 @@ public class MeepMeepTesting {
                 .addEntity(myBot)
                 .start();
     }
+
+
 }
