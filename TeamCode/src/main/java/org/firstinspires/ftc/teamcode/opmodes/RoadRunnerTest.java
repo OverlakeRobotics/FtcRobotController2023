@@ -25,6 +25,7 @@ public class RoadRunnerTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        drive.setPoseEstimate(BLUE_START_POS_1);
 
 //        drive.setPoseEstimate(new Pose2d (0,0,0));
 //
@@ -46,7 +47,8 @@ public class RoadRunnerTest extends LinearOpMode {
 
 
         TrajectorySequence myTrajectory = drive.trajectorySequenceBuilder(BLUE_START_POS_1)
-                .splineToSplineHeading(BLUE_OBJECT_POS_1, Math.toRadians (0))
+                .splineToLinearHeading(BLUE_OBJECT_POS_1, Math.toRadians (0))
+
                 .waitSeconds(1)
                 .splineToSplineHeading(BLUE_BACKDROP_LEFT, Math.toRadians(180))
                 .build();
