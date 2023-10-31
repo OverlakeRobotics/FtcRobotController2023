@@ -8,9 +8,9 @@ public class GamePositions {
     //**************************************** BLUE TEAM *******************************************
     //**********************************************************************************************
 
-    public static final Pose2d BLUE_START_POS_1 = new Pose2d(14, 60, Math.toRadians(-60));
+    public static final Pose2d BLUE_START_POS_1 = new Pose2d(14, 60, Math.toRadians(0));
 
-    public static final Pose2d BLUE_OBJECT_POS_1 = new Pose2d(24, 44, Math.toRadians(-55));
+    public static final Pose2d BLUE_OBJECT_POS_1 = new Pose2d(24, 44, Math.toRadians(-90));
     public static final Pose2d BLUE_OBJECT_POS_2 = new Pose2d(18, 32, Math.toRadians(-55));
     public static final Pose2d BLUE_OBJECT_POS_3 = new Pose2d(4, 40, Math.toRadians(-55));
 
