@@ -1,17 +1,22 @@
 package org.firstinspires.ftc.teamcode.components;
 
-import android.util.Log;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
+import android.util.Log;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.params.DriveParams;
 
 public class ArmSystem {
     public static final int GROUND = 0; //VALUE TBD
+
+    public static final int BACKBOARD = 1000; //value TBD
     public static final int ARM_LIMIT = 100; //VALUE TBD
     public static final int SERVO_GROUND = 1; //VALUE TBD;
 
@@ -51,24 +56,20 @@ public class ArmSystem {
     public boolean driveToLevel(int targetPosition, double power){
         armLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         armRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        if(mTargetPosition == 0){
-            armLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            armRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        }
-        if(mTargetPosition != targetPosition){
+
+//        if(mTargetPosition != targetPosition){
             mTargetPosition = targetPosition;
             armLeft.setTargetPosition(targetPosition);
             armLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             armLeft.setPower(power);
+          //  Log.d("armLeft", )
             armRight.setTargetPosition(targetPosition);
             armRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             armRight.setPower(power);
-        }
+  //      }
         int offsetLeft = Math.abs(armLeft.getCurrentPosition() - targetPosition);
         int offsetRight = Math.abs(armRight.getCurrentPosition() - targetPosition);
-        Log.d("what is happening", offsetLeft + " " + offsetRight + " " + armLeft.getCurrentPosition() + " " + armRight.getCurrentPosition() + " power " + armLeft.getPower() + " " + armRight.getPower());
         if(targetPosition != 0 && offsetLeft < 20 && offsetRight < 20 ){
-            Log.d("reached", armLeft.getCurrentPosition() + " " + armRight.getCurrentPosition() + " power " + armLeft.getPower() + " " + armRight.getPower() );
             return true;
         }
         else if (targetPosition > 0 && offsetLeft < 15 && offsetRight < 20){
@@ -77,15 +78,29 @@ public class ArmSystem {
         return false;
     }
 
-    public void armToGround(){
-        if(driveToLevel(GROUND, 0.1)) {
+    public boolean armToGround(){
+        if(driveToLevel(GROUND, 1)) {
             armRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             armLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             armRight.setPower(0);
             armLeft.setPower(0);
+            return true;
         }
         leftServo.setPosition(SERVO_GROUND);
         rightServo.setPosition(SERVO_GROUND);
+        return false;
+    }
+    public boolean armToBackboard(){
+        if(driveToLevel(BACKBOARD, 1)) {
+            armRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            armLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            armRight.setPower(0);
+            armLeft.setPower(0);
+            return true;
+        }
+        leftServo.setPosition(SERVO_GROUND);
+        rightServo.setPosition(SERVO_GROUND);
+        return false;
     }
     public void driveArm(Direction direction, double pow){
         if(direction == Direction.UP && (armLeft.getCurrentPosition() >= ARM_LIMIT || armRight.getCurrentPosition() >= ARM_LIMIT))
@@ -107,13 +122,18 @@ public class ArmSystem {
             armRight.setDirection(DcMotorSimple.Direction.FORWARD);
         }
 
-        armLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         armLeft.setPower(pow);//change to velocity
         armRight.setPower(pow); 
+//        telemetry.addData("Position left:", armLeft.getCurrentPosition());
+//        telemetry.addData("Position Right:", armRight.getCurrentPosition());
+//        telemetry.update();
 
-        leftServo.setPosition(armLeft.getCurrentPosition());//scale to range of inputs for servo
-        rightServo.setPosition(armLeft.getCurrentPosition());//scale to range of inputs for servo
+        leftServo.setPosition(Range.clip(armLeft.getCurrentPosition(), 0.0, 1.0));//scale to range of inputs for servo
+        rightServo.setPosition(Range.clip(armLeft.getCurrentPosition(), 0.0, 1.0));//scale to range of inputs for servo
+        armLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
     public void killMotors(){
         armLeft.setPower(0);
@@ -130,7 +150,7 @@ public class ArmSystem {
     public static class IntakeSystem {
         private final Servo intakeLeft;
         private final Servo intakeRight;
-        private final int INTAKE_POS = 1; //VALUE TBD
+        private final int INTAKE_POS = 0; //VALUE TBD
         private final int OUTTAKE_POS = 1; //VALUE TBD
 
         public IntakeSystem(Servo intake1, Servo intake2){

@@ -554,7 +554,7 @@ public class TensorFlowDetector {
         }
 
         //builder.setCameraResolution(new Size(640, 480));
-        builder.enableCameraMonitoring(true);
+       // builder.enableCameraMonitoring(true);
         //builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);
         //builder.setAutoStopLiveView(false);
         builder.addProcessor(detector);

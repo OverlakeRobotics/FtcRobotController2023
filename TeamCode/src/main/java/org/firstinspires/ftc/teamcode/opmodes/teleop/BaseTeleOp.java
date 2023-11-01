@@ -8,6 +8,9 @@ import org.firstinspires.ftc.teamcode.opmodes.base.BaseOpMode;
 
 @TeleOp(name = "Base TeleOp", group="TeleOp")
 public class BaseTeleOp extends BaseOpMode {
+    boolean armRaising = false;
+
+    boolean armLowering = false;
     public void loop() {
         float rx = (float) Math.pow(gamepad1.right_stick_x, 3);
         float lx = (float) Math.pow(gamepad1.left_stick_x, 3);
@@ -20,13 +23,13 @@ public class BaseTeleOp extends BaseOpMode {
 
         // dpad up joystick arm up
         if (gamepad1.dpad_up) {
-            power = 0.1;
+            power = 0.8;
         }
 
         //dpad down joystick arm down
         if (gamepad1.dpad_down) {
             direction = ArmSystem.Direction.DOWN;
-            power = 0.1;
+            power = 0.8;
         }
         armSystem.driveArm(direction, power);
 
@@ -35,9 +38,22 @@ public class BaseTeleOp extends BaseOpMode {
 //            launcher.launch();
         }
 
-        // a button intake preset level
+        if (gamepad1.x) {
+            armRaising = true;
+            armLowering = false;
+        }
+        if(armRaising && armSystem.armToBackboard())
+        {
+            armRaising = false;
+        }
+
         if (gamepad1.a) {
-            armSystem.armToGround();
+            armLowering = true;
+            armRaising = false;
+        }
+        if(armLowering && armSystem.armToGround())
+        {
+            armLowering = false;
         }
 
         // left trigger left intake expansion
