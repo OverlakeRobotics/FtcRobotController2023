@@ -29,10 +29,22 @@
 
 package org.firstinspires.ftc.teamcode.opmodes.TestOpModes;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.roadrunner.drive.MecanumDrive;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
 import org.firstinspires.ftc.teamcode.components.TensorFlowDetector;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+
+import java.util.List;
 
 /**
  * This 2023-2024 OpMode illustrates the basics of TensorFlow Object Detection,
@@ -45,10 +57,19 @@ import org.firstinspires.ftc.teamcode.components.TensorFlowDetector;
 // @Disabled
 public class TensorFlowTest extends LinearOpMode {
 
+    Vector2d myVector = new Vector2d(10, 5);
+    Pose2d myPose = new Pose2d (5, 10, Math.toRadians (90));
+
+
+
 
 
     @Override
     public void runOpMode() {
+
+
+
+
         String[] labels = {
                 "Blue_Owl"
         };
