@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.components;
 
 import android.util.Log;
 
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
