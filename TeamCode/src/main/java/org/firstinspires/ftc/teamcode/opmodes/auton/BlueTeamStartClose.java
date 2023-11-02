@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.components.TensorFlowDetector;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous(name = "Blue Team Autonomous Close", group = "Concept")
+@Autonomous(name = "Blue Team Autonomous Close", group = "Autonomous")
 public class BlueTeamStartClose extends LinearOpMode {
 
     // Constants
@@ -57,7 +57,7 @@ public class BlueTeamStartClose extends LinearOpMode {
 
         if (detector.getNumRecognitions() == 0) {
             telemetry.addData("Object Detected - ", "No object was detected with a confidence above %f", detector.getConfidenceThreshold());
-            telemetry.addData("Path Chosen - ", "Estimated angle = NULL deg, ready to follow c path");
+            telemetry.addData("Path Chosen - ", "Estimated angle = NULL deg, ready to follow 'r' path");
             path = 'r';
         } else if (detector.getHighestConfidenceRecognition().estimateAngleToObject(AngleUnit.DEGREES) < DEG_THRESHOLD) {
             telemetry.addData("Object Detected - ", "A(n) %s was found with %f confidence", detector.getHighestConfidenceRecognition().getLabel(), detector.getHighestConfidenceRecognition().getConfidence());
